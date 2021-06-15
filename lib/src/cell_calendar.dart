@@ -103,20 +103,18 @@ class _CalendarPageView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           MonthYearLabel(monthYearLabelBuilder),
-          Expanded(
-            child: PageView.builder(
-              controller: cellCalendarPageController ?? CellCalendarPageController(),
-              itemBuilder: (context, index) {
-                return _CalendarPage(
-                  index.visibleDateTime,
-                  daysOfTheWeekBuilder,
-                  dateTextStyle,
-                );
-              },
-              onPageChanged: (index) {
-                Provider.of<CalendarStateController>(context, listen: false).onPageChanged(index);
-              },
-            ),
+          PageView.builder(
+            controller: cellCalendarPageController ?? CellCalendarPageController(),
+            itemBuilder: (context, index) {
+              return _CalendarPage(
+                index.visibleDateTime,
+                daysOfTheWeekBuilder,
+                dateTextStyle,
+              );
+            },
+            onPageChanged: (index) {
+              Provider.of<CalendarStateController>(context, listen: false).onPageChanged(index);
+            },
           ),
         ],
       ),
