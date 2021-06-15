@@ -98,12 +98,12 @@ class _CalendarPageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          MonthYearLabel(monthYearLabelBuilder),
-          PageView.builder(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        MonthYearLabel(monthYearLabelBuilder),
+        Expanded(
+          child: PageView.builder(
             controller: cellCalendarPageController ?? CellCalendarPageController(),
             itemBuilder: (context, index) {
               return _CalendarPage(
@@ -116,8 +116,8 @@ class _CalendarPageView extends StatelessWidget {
               Provider.of<CalendarStateController>(context, listen: false).onPageChanged(index);
             },
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
