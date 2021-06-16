@@ -10,7 +10,11 @@ const dayLabelContentHeight = 16;
 const dayLabelVerticalMargin = 1;
 const _dayLabelHeight = dayLabelContentHeight + (dayLabelVerticalMargin * 2);
 
+<<<<<<< HEAD
 const _eventLabelContentHeight = 20;
+=======
+const _eventLabelContentHeight = 18;
+>>>>>>> cc9f9d92d6b0489ef1da1aaae97901242be3a108
 const _eventLabelBottomMargin = 1;
 const _eventLabelHeight = _eventLabelContentHeight + _eventLabelBottomMargin;
 
@@ -101,7 +105,11 @@ class _EventLabel extends StatelessWidget {
     return Center(
       child: Container(
         margin: EdgeInsets.only(left: 4, right: 4, bottom: 1),
+<<<<<<< HEAD
         height: 20,
+=======
+        height: 18,
+>>>>>>> cc9f9d92d6b0489ef1da1aaae97901242be3a108
         width: double.infinity,
         // color: event.eventBackgroundColor,
         decoration: BoxDecoration(
