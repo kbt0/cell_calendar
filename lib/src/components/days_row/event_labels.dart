@@ -7,11 +7,11 @@ import '../../controllers/cell_height_controller.dart';
 
 /// Numbers to return accurate events in the cell.
 const dayLabelContentHeight = 16;
-const dayLabelVerticalMargin = 4;
+const dayLabelVerticalMargin = 1;
 const _dayLabelHeight = dayLabelContentHeight + (dayLabelVerticalMargin * 2);
 
 const _eventLabelContentHeight = 13;
-const _eventLabelBottomMargin = 3;
+const _eventLabelBottomMargin = 1;
 const _eventLabelHeight = _eventLabelContentHeight + _eventLabelBottomMargin;
 
 /// Get events to be shown from [CalendarStateController]
@@ -23,14 +23,8 @@ class EventLabels extends StatelessWidget {
 
   final DateTime date;
 
-  List<CalendarEvent> _eventsOnTheDay(
-      DateTime date, List<CalendarEvent> events) {
-    final res = events
-        .where((event) =>
-            event.eventDate.year == date.year &&
-            event.eventDate.month == date.month &&
-            event.eventDate.day == date.day)
-        .toList();
+  List<CalendarEvent> _eventsOnTheDay(DateTime date, List<CalendarEvent> events) {
+    final res = events.where((event) => event.eventDate.year == date.year && event.eventDate.month == date.month && event.eventDate.day == date.day).toList();
     return res;
   }
 
@@ -56,14 +50,15 @@ class EventLabels extends StatelessWidget {
           return const SizedBox.shrink();
         }
         final eventsOnTheDay = _eventsOnTheDay(date, events);
-        final hasEnoughSpace =
-            _hasEnoughSpace(cellHeight, eventsOnTheDay.length);
+        final hasEnoughSpace = _hasEnoughSpace(cellHeight, eventsOnTheDay.length);
         final maxIndex = _maxIndex(cellHeight, eventsOnTheDay.length);
         return ListView.builder(
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           itemCount: eventsOnTheDay.length,
           itemBuilder: (context, index) {
+            return _EventLabel(eventsOnTheDay[index]);
+            /*
             if (hasEnoughSpace) {
               return _EventLabel(eventsOnTheDay[index]);
             } else if (index < maxIndex) {
@@ -81,9 +76,12 @@ class EventLabels extends StatelessWidget {
                   )
                 ],
               );
+            } else if (index == 0) {
+              return _EventLabel(eventsOnTheDay[index]); //一つだけ表示
             } else {
               return SizedBox.shrink();
             }
+             */
           },
         );
       },
@@ -100,19 +98,29 @@ class _EventLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(right: 4, bottom: 3),
-      height: 13,
-      width: double.infinity,
-      color: event.eventBackgroundColor,
-      child: Text(
-        event.eventName,
-        style: TextStyle(
-            color: event.eventTextColor,
-            fontWeight: FontWeight.bold,
-            fontSize: 11),
-        textAlign: TextAlign.center,
-        overflow: TextOverflow.ellipsis,
+    return Center(
+      child: Container(
+        margin: EdgeInsets.only(left: 4, right: 4, bottom: 1),
+        height: 13,
+        width: double.infinity,
+        // color: event.eventBackgroundColor,
+        decoration: BoxDecoration(
+          color: event.eventBackgroundColor,
+          borderRadius: BorderRadius.circular(2),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(4.0, 0, 4.0, 0),
+          child: Text(
+            event.eventName,
+            style: TextStyle(color: event.eventTextColor, fontWeight: FontWeight.normal, fontSize: 10),
+            strutStyle: StrutStyle(
+              fontSize: 10.0,
+              height: 1.3,
+            ),
+            textAlign: TextAlign.start,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
       ),
     );
   }

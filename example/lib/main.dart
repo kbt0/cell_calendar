@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:cell_calendar/cell_calendar.dart';
 import 'package:example/sample_event.dart';
 import 'package:flutter/material.dart';
@@ -21,9 +23,37 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
   final String title;
+
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  double width = 0.0;
+  double height = 0.0;
+
+  @override
+  void didChangeMetrics() {
+    setState(() {
+      width = window.physicalSize.width;
+      height = window.physicalSize.height;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +61,7 @@ class MyHomePage extends StatelessWidget {
     final cellCalendarPageController = CellCalendarPageController();
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
+        title: Text(widget.title),
       ),
       body: CellCalendar(
         cellCalendarPageController: cellCalendarPageController,
@@ -83,15 +113,12 @@ class MyHomePage extends StatelessWidget {
         onCellTapped: (date) {
           final eventsOnTheDate = _sampleEvents.where((event) {
             final eventDate = event.eventDate;
-            return eventDate.year == date.year &&
-                eventDate.month == date.month &&
-                eventDate.day == date.day;
+            return eventDate.year == date.year && eventDate.month == date.month && eventDate.day == date.day;
           }).toList();
           showDialog(
               context: context,
               builder: (_) => AlertDialog(
-                    title:
-                        Text(date.month.monthName + " " + date.day.toString()),
+                    title: Text(date.month.monthName + " " + date.day.toString()),
                     content: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: eventsOnTheDate
