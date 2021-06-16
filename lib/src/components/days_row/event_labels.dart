@@ -24,6 +24,7 @@ class EventLabels extends StatelessWidget {
   final DateTime date;
 
   List<CalendarEvent> _eventsOnTheDay(DateTime date, List<CalendarEvent> events) {
+    //todo 繰り返しイベント取得
     final res = events.where((event) => event.eventDate.year == date.year && event.eventDate.month == date.month && event.eventDate.day == date.day).toList();
     return res;
   }
