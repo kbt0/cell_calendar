@@ -50,7 +50,7 @@ class CalendarEvent {
         event.eventRecurrence != null &&
         event.eventRecurrence!.startDate.isBefore(date) &&
         event.eventRecurrence!.recurrenceType == RecurrenceType.weekly &&
-        event.eventRecurrence!.dayOfWeek == date.weekday);
+        event.eventRecurrence!.dayOfWeek == date.weekday % 7);
     res.addAll(weeklyRecur);
 
     /// 毎月(日にち指定)の繰り返し
@@ -67,7 +67,7 @@ class CalendarEvent {
         event.eventRecurrence!.startDate.isBefore(date) &&
         event.eventRecurrence!.recurrenceType == RecurrenceType.monthlyByWeekDay &&
         event.eventRecurrence!.week == ((date.day - 1) ~/ 7) &&
-        event.eventRecurrence!.dayOfWeek == date.weekday);
+        event.eventRecurrence!.dayOfWeek == date.weekday % 7);
     res.addAll(monthlyByWeekDayRecur);
 
     /// 毎年の繰り返し
@@ -95,7 +95,7 @@ class RecurrenceProperties {
     this.interval = 1,
     this.weekDays,
   })  : dayOfMonth = startDate.day,
-        dayOfWeek = startDate.weekday,
+        dayOfWeek = startDate.weekday % 7,
         month = startDate.month,
         week = ((startDate.day - 1) ~/ 7);
 

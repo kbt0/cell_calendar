@@ -6,7 +6,7 @@ import '../../controllers/calendar_state_controller.dart';
 import '../../controllers/cell_height_controller.dart';
 
 /// Numbers to return accurate events in the cell.
-const dayLabelContentHeight = 16;
+const dayLabelContentHeight = 20;
 const dayLabelVerticalMargin = 1;
 const _dayLabelHeight = dayLabelContentHeight + (dayLabelVerticalMargin * 2);
 

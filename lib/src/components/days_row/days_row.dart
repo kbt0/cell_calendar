@@ -109,7 +109,7 @@ class _TodayLabel extends StatelessWidget {
     final textStyle = caption.merge(dateTextStyle);
     return Container(
       margin: EdgeInsets.symmetric(vertical: 1),
-      height: 16,
+      height: 20,
       width: 20,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
