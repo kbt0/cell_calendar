@@ -65,7 +65,6 @@ class _DayCell extends StatelessWidget {
           child: MeasureSize(
             onChange: (size) {
               if (size == null) return;
-              print(size.height);
               Provider.of<CellHeightController>(context, listen: false).onChanged(size);
             },
             child: Column(
