@@ -24,6 +24,49 @@ class CalendarEvent {
   final Color eventBackgroundColor;
   final Color eventTextColor;
   final String? eventID;
+
+  // その日のイベントを取得
+  static List<CalendarEvent> getEventsOnTheDay(DateTime date, List<CalendarEvent> events) {
+    final res = events.where((event) => event.eventDate.year == date.year && event.eventDate.month == date.month && event.eventDate.day == date.day).toList();
+    //TODO 繰り返しイベント取得
+    /// 週繰り返し
+    final weeklyRecur = events.where((event) =>
+        event.eventRecurrence != null &&
+        event.eventRecurrence!.startDate.isBefore(date) &&
+        event.eventRecurrence!.recurrenceType == RecurrenceType.weekly &&
+        event.eventRecurrence!.dayOfWeek == date.weekday);
+    res.addAll(weeklyRecur);
+
+    /// 月(日にち指定)の繰り返し
+    final monthlyRecur = events.where((event) =>
+        event.eventRecurrence != null &&
+        event.eventRecurrence!.startDate.isBefore(date) &&
+        event.eventRecurrence!.recurrenceType == RecurrenceType.monthly &&
+        event.eventRecurrence!.dayOfMonth == date.day);
+    res.addAll(monthlyRecur);
+
+    /// 月(曜日指定)の繰り返し
+    final monthlyByWeekDayRecur = events.where((event) =>
+        event.eventRecurrence != null &&
+        event.eventRecurrence!.startDate.isBefore(date) &&
+        event.eventRecurrence!.recurrenceType == RecurrenceType.monthlyByWeekDay &&
+        event.eventRecurrence!.week == ((date.day - 1) ~/ 7) &&
+        event.eventRecurrence!.dayOfWeek == date.weekday);
+    res.addAll(monthlyByWeekDayRecur);
+
+    /// 年の繰り返し
+    final yearlyRecur = events.where((event) =>
+        event.eventRecurrence != null &&
+        event.eventRecurrence!.startDate.isBefore(date) &&
+        event.eventRecurrence!.recurrenceType == RecurrenceType.yearly &&
+        event.eventRecurrence!.month == date.month &&
+        event.eventRecurrence!.dayOfMonth == date.day);
+    res.addAll(yearlyRecur);
+
+    //重複削除
+    res.toSet().toList();
+    return res;
+  }
 }
 
 class RecurrenceProperties {
@@ -52,6 +95,7 @@ enum RecurrenceType {
   daily,
   weekly,
   monthly,
+  monthlyByWeekDay,
   yearly,
 }
 

@@ -23,12 +23,6 @@ class EventLabels extends StatelessWidget {
 
   final DateTime date;
 
-  List<CalendarEvent> _eventsOnTheDay(DateTime date, List<CalendarEvent> events) {
-    //todo 繰り返しイベント取得
-    final res = events.where((event) => event.eventDate.year == date.year && event.eventDate.month == date.month && event.eventDate.day == date.day).toList();
-    return res;
-  }
-
   bool _hasEnoughSpace(double cellHeight, int eventsLength) {
     final eventsTotalHeight = _eventLabelHeight * eventsLength;
     final spaceForEvents = cellHeight - _dayLabelHeight;
@@ -50,7 +44,7 @@ class EventLabels extends StatelessWidget {
         if (cellHeight == null) {
           return const SizedBox.shrink();
         }
-        final eventsOnTheDay = _eventsOnTheDay(date, events);
+        final eventsOnTheDay = CalendarEvent.getEventsOnTheDay(date, events);
         final hasEnoughSpace = _hasEnoughSpace(cellHeight, eventsOnTheDay.length);
         final maxIndex = _maxIndex(cellHeight, eventsOnTheDay.length);
         return ListView.builder(
