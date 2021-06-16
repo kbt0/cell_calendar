@@ -52,8 +52,7 @@ class EventLabels extends StatelessWidget {
           shrinkWrap: true,
           itemCount: eventsOnTheDay.length,
           itemBuilder: (context, index) {
-            return _EventLabel(eventsOnTheDay[index]);
-            /*
+            // return _EventLabel(eventsOnTheDay[index]);
             if (hasEnoughSpace) {
               return _EventLabel(eventsOnTheDay[index]);
             } else if (index < maxIndex) {
@@ -65,9 +64,19 @@ class EventLabels extends StatelessWidget {
                   _EventLabel(
                     eventsOnTheDay[index],
                   ),
-                  Icon(
-                    Icons.more_horiz,
-                    size: 13,
+                  Container(
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.more_horiz,
+                          size: 13,
+                        ),
+                        Text(
+                          ' 他${(eventsOnTheDay.length - 1) - index}件',
+                          style: TextStyle(fontSize: 12),
+                        ),
+                      ],
+                    ),
                   )
                 ],
               );
@@ -76,7 +85,6 @@ class EventLabels extends StatelessWidget {
             } else {
               return SizedBox.shrink();
             }
-             */
           },
         );
       },

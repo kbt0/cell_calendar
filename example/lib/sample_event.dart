@@ -27,7 +27,12 @@ List<CalendarEvent> sampleEvents() {
         eventRecurrence: RecurrenceProperties(startDate: today.add(Duration(days: 3)), recurrenceType: RecurrenceType.yearly)),
     CalendarEvent(eventName: "Date with Rebecca", eventDate: today.add(Duration(days: 7)), eventColorId: 5),
     CalendarEvent(eventName: "Start to study Spanish", eventDate: today.add(Duration(days: 13))),
-    CalendarEvent(eventName: "Have lunch with Mike", eventDate: today.add(Duration(days: 13)), eventColorId: 6),
+    CalendarEvent(
+        eventName: "Have lunch with Mike",
+        eventDate: today.add(Duration(days: 13)),
+        eventColorId: 6,
+        eventRecurrence:
+            RecurrenceProperties(startDate: today.add(Duration(days: 13)), recurrenceType: RecurrenceType.daily, weekDays: CalendarEvent.weekdayList)),
     CalendarEvent(eventName: "Buy new Play Station software", eventDate: today.add(Duration(days: 13)), eventColorId: 7),
     CalendarEvent(eventName: "Update my flutter package", eventDate: today.add(Duration(days: 13))),
     CalendarEvent(eventName: "Watch movies in my house", eventDate: today.add(Duration(days: 21))),
