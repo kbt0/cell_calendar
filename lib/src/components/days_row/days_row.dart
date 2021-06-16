@@ -109,8 +109,8 @@ class _TodayLabel extends StatelessWidget {
     final textStyle = caption.merge(dateTextStyle);
     return Container(
       margin: EdgeInsets.symmetric(vertical: 1),
-      height: 20,
-      width: 20,
+      height: dayLabelContentHeight.toDouble(),
+      width: dayLabelContentHeight.toDouble(),
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: config.todayMarkColor,

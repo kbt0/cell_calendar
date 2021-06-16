@@ -6,7 +6,7 @@ import '../../controllers/calendar_state_controller.dart';
 import '../../controllers/cell_height_controller.dart';
 
 /// Numbers to return accurate events in the cell.
-const dayLabelContentHeight = 20;
+const dayLabelContentHeight = 26;
 const dayLabelVerticalMargin = 1;
 const _dayLabelHeight = dayLabelContentHeight + (dayLabelVerticalMargin * 2);
 
@@ -67,13 +67,14 @@ class EventLabels extends StatelessWidget {
                   Container(
                     child: Row(
                       children: [
-                        Icon(
-                          Icons.more_horiz,
-                          size: 13,
-                        ),
+                        SizedBox(width: 5),
                         Text(
                           ' 他${(eventsOnTheDay.length - 1) - index}件',
                           style: TextStyle(fontSize: 12),
+                        ),
+                        Icon(
+                          Icons.more_horiz,
+                          size: 13,
                         ),
                       ],
                     ),
