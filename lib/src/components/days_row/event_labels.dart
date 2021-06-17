@@ -20,7 +20,7 @@ const _eventLabelHeight = _eventLabelContentHeight + _eventLabelBottomMargin;
 /// Shows accurate number of [_EventLabel] by the height of the parent cell
 /// notified from [CellHeightController]
 class EventLabels extends HookWidget {
-  EventLabels(this.date, this.eventsOnTheDate);
+  EventLabels(this.date, _eventsOnTheDate) : eventsOnTheDate = _eventsOnTheDate ?? <CalendarEvent>[];
 
   final DateTime date;
   final List<CalendarEvent> eventsOnTheDate;

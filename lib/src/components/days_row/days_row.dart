@@ -54,7 +54,7 @@ class _DayCell extends HookWidget {
     // イベント取得
     final events = useProvider(calendarEventsProvider);
     // １日のイベントを取得
-    final eventsOnTheDate = CalendarEvent.getEventsOnTheDay(date, events!);
+    final eventsOnTheDate = (events == null) ? null : CalendarEvent.getEventsOnTheDay(date, events);
 
     final today = DateTime.now();
     final isToday = date.year == today.year && date.month == today.month && date.day == today.day;
