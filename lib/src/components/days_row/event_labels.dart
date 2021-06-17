@@ -20,10 +20,10 @@ const _eventLabelHeight = _eventLabelContentHeight + _eventLabelBottomMargin;
 /// Shows accurate number of [_EventLabel] by the height of the parent cell
 /// notified from [CellHeightController]
 class EventLabels extends HookWidget {
-  EventLabels(this.date, this.eventsOnTheDay);
+  EventLabels(this.date, this.eventsOnTheDate);
 
   final DateTime date;
-  final List<CalendarEvent> eventsOnTheDay;
+  final List<CalendarEvent> eventsOnTheDate;
 
   bool _hasEnoughSpace(double cellHeight, int eventsLength) {
     final eventsTotalHeight = _eventLabelHeight * eventsLength;
@@ -46,31 +46,31 @@ class EventLabels extends HookWidget {
     if (cellHeight == null) {
       return const SizedBox.shrink();
     }
-    final hasEnoughSpace = _hasEnoughSpace(cellHeight, eventsOnTheDay.length);
-    final maxIndex = _maxIndex(cellHeight, eventsOnTheDay.length);
+    final hasEnoughSpace = _hasEnoughSpace(cellHeight, eventsOnTheDate.length);
+    final maxIndex = _maxIndex(cellHeight, eventsOnTheDate.length);
     return ListView.builder(
       physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
-      itemCount: eventsOnTheDay.length,
+      itemCount: eventsOnTheDate.length,
       itemBuilder: (context, index) {
         // return _EventLabel(eventsOnTheDay[index]);
         if (hasEnoughSpace) {
-          return _EventLabel(eventsOnTheDay[index]);
+          return _EventLabel(eventsOnTheDate[index]);
         } else if (index < maxIndex) {
-          return _EventLabel(eventsOnTheDay[index]);
+          return _EventLabel(eventsOnTheDate[index]);
         } else if (index == maxIndex) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _EventLabel(
-                eventsOnTheDay[index],
+                eventsOnTheDate[index],
               ),
               Container(
                 child: Row(
                   children: [
                     SizedBox(width: 5),
                     Text(
-                      ' 他${(eventsOnTheDay.length - 1) - index}件',
+                      ' 他${(eventsOnTheDate.length - 1) - index}件',
                       style: TextStyle(fontSize: 12),
                     ),
                     Icon(
@@ -83,7 +83,7 @@ class EventLabels extends HookWidget {
             ],
           );
         } else if (index == 0) {
-          return _EventLabel(eventsOnTheDay[index]); //一つだけ表示
+          return _EventLabel(eventsOnTheDate[index]); //一つだけ表示
         } else {
           return SizedBox.shrink();
         }

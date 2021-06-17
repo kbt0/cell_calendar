@@ -51,7 +51,9 @@ class _DayCell extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    // イベント取得
     final events = useProvider(calendarEventsProvider);
+    // １日のイベントを取得
     final eventsOnTheDate = CalendarEvent.getEventsOnTheDay(date, events!);
 
     final today = DateTime.now();
