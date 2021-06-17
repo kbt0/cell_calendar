@@ -1,7 +1,5 @@
-import 'package:cell_calendar/src/controllers/calendar_events_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:provider/provider.dart' as provider;
 
 import '../../calendar_event.dart';
@@ -22,9 +20,10 @@ const _eventLabelHeight = _eventLabelContentHeight + _eventLabelBottomMargin;
 /// Shows accurate number of [_EventLabel] by the height of the parent cell
 /// notified from [CellHeightController]
 class EventLabels extends HookWidget {
-  EventLabels(this.date);
+  EventLabels(this.date, this.eventsOnTheDay);
 
   final DateTime date;
+  final List<CalendarEvent> eventsOnTheDay;
 
   bool _hasEnoughSpace(double cellHeight, int eventsLength) {
     final eventsTotalHeight = _eventLabelHeight * eventsLength;
@@ -41,15 +40,12 @@ class EventLabels extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final events = useProvider(calendarEventsProvider);
-
     final cellHeight = provider.Provider.of<CellHeightController>(context).cellHeight;
     // return provider.Selector<CalendarStateController, List<CalendarEvent>>(
     //   builder: (context, events, _) {
     if (cellHeight == null) {
       return const SizedBox.shrink();
     }
-    final eventsOnTheDay = CalendarEvent.getEventsOnTheDay(date, events!);
     final hasEnoughSpace = _hasEnoughSpace(cellHeight, eventsOnTheDay.length);
     final maxIndex = _maxIndex(cellHeight, eventsOnTheDay.length);
     return ListView.builder(

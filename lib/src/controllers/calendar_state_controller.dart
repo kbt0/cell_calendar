@@ -1,3 +1,4 @@
+import 'package:cell_calendar/cell_calendar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 
@@ -17,7 +18,7 @@ class CalendarStateController extends ChangeNotifier {
 
   final Function(DateTime firstDate, DateTime lastDate)? onPageChangedFromUserArgument;
 
-  final void Function(DateTime)? onCellTappedFromUserArgument;
+  final void Function(DateTime, List<CalendarEvent>)? onCellTappedFromUserArgument;
 
   DateTime? currentDateTime;
 
@@ -45,9 +46,9 @@ class CalendarStateController extends ChangeNotifier {
   //   return res;
   // }
 
-  void onCellTapped(DateTime date) {
+  void onCellTapped(DateTime date, List<CalendarEvent> events) {
     if (onCellTappedFromUserArgument != null) {
-      onCellTappedFromUserArgument!(date);
+      onCellTappedFromUserArgument!(date, events);
     }
   }
 }

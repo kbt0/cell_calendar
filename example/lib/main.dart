@@ -113,12 +113,11 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
             ),
           );
         },
-        onCellTapped: (date) {
+        onCellTapped: (date, eventsOnTheDate) {
           // final eventsOnTheDate = _sampleEvents.where((event) {
           //   final eventDate = event.eventDate;
           //   return eventDate.year == date.year && eventDate.month == date.month && eventDate.day == date.day;
           // }).toList();
-          final eventsOnTheDate = CalendarEvent.getEventsOnTheDay(date, _sampleEvents);
           showDialog(
               context: context,
               builder: (_) => AlertDialog(

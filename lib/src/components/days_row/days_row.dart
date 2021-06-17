@@ -1,6 +1,9 @@
 import 'package:cell_calendar/cell_calendar.dart';
+import 'package:cell_calendar/src/controllers/calendar_events_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:provider/provider.dart' as provider;
 
 import '../../controllers/calendar_state_controller.dart';
 import '../../controllers/cell_height_controller.dart';
@@ -39,7 +42,7 @@ class DaysRow extends StatelessWidget {
 /// Cell of calendar.
 ///
 /// Its height is circulated by [MeasureSize] and notified by [CellHeightController]
-class _DayCell extends StatelessWidget {
+class _DayCell extends HookWidget {
   _DayCell(this.date, this.visiblePageDate, this.dateTextStyle);
 
   final DateTime date;
@@ -48,12 +51,15 @@ class _DayCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final events = useProvider(calendarEventsProvider);
+    final eventsOnTheDate = CalendarEvent.getEventsOnTheDay(date, events!);
+
     final today = DateTime.now();
     final isToday = date.year == today.year && date.month == today.month && date.day == today.day;
     return Expanded(
       child: GestureDetector(
         onTap: () {
-          Provider.of<CalendarStateController>(context, listen: false).onCellTapped(date);
+          provider.Provider.of<CalendarStateController>(context, listen: false).onCellTapped(date, eventsOnTheDate!);
         },
         child: DecoratedBox(
           decoration: BoxDecoration(
@@ -65,7 +71,7 @@ class _DayCell extends StatelessWidget {
           child: MeasureSize(
             onChange: (size) {
               if (size == null) return;
-              Provider.of<CellHeightController>(context, listen: false).onChanged(size);
+              provider.Provider.of<CellHeightController>(context, listen: false).onChanged(size);
             },
             child: Column(
               children: [
@@ -81,7 +87,7 @@ class _DayCell extends StatelessWidget {
                       ),
                 Expanded(
                   // Overflow対策
-                  child: EventLabels(date),
+                  child: EventLabels(date, eventsOnTheDate),
                 ),
               ],
             ),
@@ -104,7 +110,7 @@ class _TodayLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final config = Provider.of<TodayUIConfig>(context, listen: false);
+    final config = provider.Provider.of<TodayUIConfig>(context, listen: false);
     final caption = Theme.of(context).textTheme.caption!.copyWith(fontWeight: FontWeight.w500);
     final textStyle = caption.merge(dateTextStyle);
     return Container(
