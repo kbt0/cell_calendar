@@ -20,7 +20,7 @@ class CalendarEvent {
     String? id,
   })  : id = id,
         end = end ?? start.add(Duration()),
-        color = CalendarEventColorMap.entries.map((e) => e.value).toList()[min(colorId, CalendarEventColorMap.length)];
+        color = CalendarEventColorList[min(colorId, CalendarEventColorList.length)].color;
 
   String summary;
   DateTime start;
@@ -138,17 +138,24 @@ enum WeekDays {
   saturday,
 }
 
-const Map<String, Color> CalendarEventColorMap = {
-  "ブルー": Colors.lightBlue,
-  "トマト": Colors.redAccent,
-  "ミカン": Colors.orange,
-  "バナナ": Colors.amber,
-  "バジル": Colors.teal,
-  "セージ": Colors.green,
-  "ピーコック": Colors.cyan,
-  "ブルーベリー": Colors.indigoAccent,
-  "ラベンダー": Colors.deepPurpleAccent,
-  "ブドウ": Colors.purple,
-  "フラミンゴ": Colors.pinkAccent,
-  "グラファイト": Colors.grey,
-};
+const List<CalendarEventColor> CalendarEventColorList = [
+  CalendarEventColor('ブルー', Colors.lightBlue),
+  CalendarEventColor('トマト', Colors.redAccent),
+  CalendarEventColor('ミカン', Colors.orange),
+  CalendarEventColor('バナナ', Colors.amber),
+  CalendarEventColor('バジル', Colors.teal),
+  CalendarEventColor('セージ', Colors.green),
+  CalendarEventColor('ピーコック', Colors.cyan),
+  CalendarEventColor('ブルーベリー', Colors.indigoAccent),
+  CalendarEventColor('ラベンダー', Colors.deepPurpleAccent),
+  CalendarEventColor('ブドウ', Colors.purple),
+  CalendarEventColor('フラミンゴ', Colors.pinkAccent),
+  CalendarEventColor('グラファイト', Colors.grey),
+];
+
+class CalendarEventColor {
+  const CalendarEventColor(this.name, this.color);
+
+  final String name;
+  final Color color;
+}
