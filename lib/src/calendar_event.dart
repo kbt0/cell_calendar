@@ -22,14 +22,14 @@ class CalendarEvent {
         end = end ?? start.add(Duration()),
         color = CalendarEventColorMap.entries.map((e) => e.value).toList()[min(colorId, CalendarEventColorMap.length)];
 
-  final String summary;
-  final DateTime start;
-  final DateTime? end;
-  final RecurrenceProperties? recurrence;
-  final String description;
-  final int colorId;
-  final Color color;
-  final Color textColor;
+  String summary;
+  DateTime start;
+  DateTime? end;
+  RecurrenceProperties? recurrence;
+  String description;
+  int colorId;
+  Color color;
+  Color textColor;
   bool shouldNotify;
   DateTime? created;
   DateTime? updated;
