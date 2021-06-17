@@ -55,7 +55,7 @@ class CellCalendar extends HookWidget {
 
   final List<CalendarEvent> events;
   final void Function(DateTime firstDate, DateTime lastDate)? onPageChanged;
-  final void Function(DateTime selectDate, List<CalendarEvent> eventsOnTheDate)? onCellTapped;
+  final void Function(DateTime selectDate, List<CalendarEvent>? eventsOnTheDate)? onCellTapped;
   final Color todayMarkColor;
   final Color todayTextColor;
 

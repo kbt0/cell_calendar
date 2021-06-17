@@ -18,7 +18,7 @@ class CalendarStateController extends ChangeNotifier {
 
   final Function(DateTime firstDate, DateTime lastDate)? onPageChangedFromUserArgument;
 
-  final void Function(DateTime, List<CalendarEvent>)? onCellTappedFromUserArgument;
+  final void Function(DateTime, List<CalendarEvent>?)? onCellTappedFromUserArgument;
 
   DateTime? currentDateTime;
 
@@ -46,7 +46,7 @@ class CalendarStateController extends ChangeNotifier {
   //   return res;
   // }
 
-  void onCellTapped(DateTime date, List<CalendarEvent> events) {
+  void onCellTapped(DateTime date, List<CalendarEvent>? events) {
     if (onCellTappedFromUserArgument != null) {
       onCellTappedFromUserArgument!(date, events);
     }

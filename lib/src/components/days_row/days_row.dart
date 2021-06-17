@@ -61,7 +61,7 @@ class _DayCell extends HookWidget {
     return Expanded(
       child: GestureDetector(
         onTap: () {
-          provider.Provider.of<CalendarStateController>(context, listen: false).onCellTapped(date, eventsOnTheDate!);
+          provider.Provider.of<CalendarStateController>(context, listen: false).onCellTapped(date, eventsOnTheDate);
         },
         child: DecoratedBox(
           decoration: BoxDecoration(
