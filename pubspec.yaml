@@ -11,7 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
   provider: ^5.0.0
-  googleapis: ^3.0.0 # カレンダーAPI
+  hooks_riverpod: ^0.14.0+4 # 状態管理
 
 dev_dependencies:
   flutter_test:

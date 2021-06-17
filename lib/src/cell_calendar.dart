@@ -1,6 +1,9 @@
+import 'package:cell_calendar/src/controllers/calendar_events_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:provider/provider.dart' as provider;
 
 import 'calendar_event.dart';
 import 'components/days_of_the_week.dart';
@@ -25,7 +28,7 @@ class TodayUIConfig {
 /// Calendar widget like a Google Calendar
 ///
 /// Expected to be used in full screen
-class CellCalendar extends StatelessWidget {
+class CellCalendar extends HookWidget {
   CellCalendar({
     this.cellCalendarPageController,
     this.events = const [],
@@ -58,19 +61,23 @@ class CellCalendar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
+    final calendarEventsController = useProvider(calendarEventsProvider.notifier);
+    //1フレーム後に実行
+    WidgetsBinding.instance?.addPostFrameCallback((_) => calendarEventsController.setEvents(events));
+
+    return provider.MultiProvider(
       providers: [
-        ChangeNotifierProvider(
+        provider.ChangeNotifierProvider(
           create: (_) => CalendarStateController(
-            events: events,
+            //events: events,
             onPageChangedFromUserArgument: onPageChanged,
             onCellTappedFromUserArgument: onCellTapped,
           ),
         ),
-        ChangeNotifierProvider(
+        provider.ChangeNotifierProvider(
           create: (_) => CellHeightController(),
         ),
-        Provider.value(value: TodayUIConfig(todayTextColor, todayMarkColor)),
+        provider.Provider.value(value: TodayUIConfig(todayTextColor, todayMarkColor)),
       ],
       child: _CalendarPageView(
         daysOfTheWeekBuilder,
@@ -113,7 +120,7 @@ class _CalendarPageView extends StatelessWidget {
               );
             },
             onPageChanged: (index) {
-              Provider.of<CalendarStateController>(context, listen: false).onPageChanged(index);
+              provider.Provider.of<CalendarStateController>(context, listen: false).onPageChanged(index);
             },
           ),
         ),

@@ -1,5 +1,8 @@
+import 'package:cell_calendar/src/controllers/calendar_events_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:provider/provider.dart' as provider;
 
 import '../../calendar_event.dart';
 import '../../controllers/calendar_state_controller.dart';
@@ -18,7 +21,7 @@ const _eventLabelHeight = _eventLabelContentHeight + _eventLabelBottomMargin;
 ///
 /// Shows accurate number of [_EventLabel] by the height of the parent cell
 /// notified from [CellHeightController]
-class EventLabels extends StatelessWidget {
+class EventLabels extends HookWidget {
   EventLabels(this.date);
 
   final DateTime date;
@@ -38,60 +41,62 @@ class EventLabels extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cellHeight = Provider.of<CellHeightController>(context).cellHeight;
-    return Selector<CalendarStateController, List<CalendarEvent>>(
-      builder: (context, events, _) {
-        if (cellHeight == null) {
-          return const SizedBox.shrink();
-        }
-        final eventsOnTheDay = CalendarEvent.getEventsOnTheDay(date, events);
-        final hasEnoughSpace = _hasEnoughSpace(cellHeight, eventsOnTheDay.length);
-        final maxIndex = _maxIndex(cellHeight, eventsOnTheDay.length);
-        return ListView.builder(
-          physics: NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: eventsOnTheDay.length,
-          itemBuilder: (context, index) {
-            // return _EventLabel(eventsOnTheDay[index]);
-            if (hasEnoughSpace) {
-              return _EventLabel(eventsOnTheDay[index]);
-            } else if (index < maxIndex) {
-              return _EventLabel(eventsOnTheDay[index]);
-            } else if (index == maxIndex) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _EventLabel(
-                    eventsOnTheDay[index],
-                  ),
-                  Container(
-                    child: Row(
-                      children: [
-                        SizedBox(width: 5),
-                        Text(
-                          ' 他${(eventsOnTheDay.length - 1) - index}件',
-                          style: TextStyle(fontSize: 12),
-                        ),
-                        Icon(
-                          Icons.more_horiz,
-                          size: 13,
-                        ),
-                      ],
+    final events = useProvider(calendarEventsProvider);
+
+    final cellHeight = provider.Provider.of<CellHeightController>(context).cellHeight;
+    // return provider.Selector<CalendarStateController, List<CalendarEvent>>(
+    //   builder: (context, events, _) {
+    if (cellHeight == null) {
+      return const SizedBox.shrink();
+    }
+    final eventsOnTheDay = CalendarEvent.getEventsOnTheDay(date, events!);
+    final hasEnoughSpace = _hasEnoughSpace(cellHeight, eventsOnTheDay.length);
+    final maxIndex = _maxIndex(cellHeight, eventsOnTheDay.length);
+    return ListView.builder(
+      physics: NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      itemCount: eventsOnTheDay.length,
+      itemBuilder: (context, index) {
+        // return _EventLabel(eventsOnTheDay[index]);
+        if (hasEnoughSpace) {
+          return _EventLabel(eventsOnTheDay[index]);
+        } else if (index < maxIndex) {
+          return _EventLabel(eventsOnTheDay[index]);
+        } else if (index == maxIndex) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _EventLabel(
+                eventsOnTheDay[index],
+              ),
+              Container(
+                child: Row(
+                  children: [
+                    SizedBox(width: 5),
+                    Text(
+                      ' 他${(eventsOnTheDay.length - 1) - index}件',
+                      style: TextStyle(fontSize: 12),
                     ),
-                  )
-                ],
-              );
-            } else if (index == 0) {
-              return _EventLabel(eventsOnTheDay[index]); //一つだけ表示
-            } else {
-              return SizedBox.shrink();
-            }
-          },
-        );
+                    Icon(
+                      Icons.more_horiz,
+                      size: 13,
+                    ),
+                  ],
+                ),
+              )
+            ],
+          );
+        } else if (index == 0) {
+          return _EventLabel(eventsOnTheDay[index]); //一つだけ表示
+        } else {
+          return SizedBox.shrink();
+        }
       },
-      selector: (context, controller) => controller.events,
     );
   }
+// selector: (context, controller) => controller.events,
+//   );
+// }
 }
 
 /// label to show [CalendarEvent]

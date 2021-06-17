@@ -23,6 +23,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  hooks_riverpod: ^0.14.0+4 # 状態管理
   cell_calendar:
 
 
