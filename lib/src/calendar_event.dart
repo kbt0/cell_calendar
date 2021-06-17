@@ -24,7 +24,7 @@ class CalendarEvent {
 
   String summary;
   DateTime start;
-  DateTime? end;
+  DateTime end;
   RecurrenceProperties? recurrence;
   String description;
   int colorId;
