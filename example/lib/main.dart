@@ -128,10 +128,10 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
                               width: double.infinity,
                               padding: EdgeInsets.all(4),
                               margin: EdgeInsets.only(bottom: 12),
-                              color: event.eventBackgroundColor,
+                              color: event.color,
                               child: Text(
-                                event.eventName,
-                                style: TextStyle(color: event.eventTextColor),
+                                event.summary,
+                                style: TextStyle(color: event.textColor),
                               ),
                             ),
                           )

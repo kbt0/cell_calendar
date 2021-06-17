@@ -109,14 +109,14 @@ class _EventLabel extends StatelessWidget {
         width: double.infinity,
         // color: event.eventBackgroundColor,
         decoration: BoxDecoration(
-          color: event.eventBackgroundColor,
+          color: event.color,
           borderRadius: BorderRadius.circular(2),
         ),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(4.0, 0, 4.0, 0),
           child: Text(
-            event.eventName,
-            style: TextStyle(color: event.eventTextColor, fontWeight: FontWeight.normal, fontSize: 14),
+            event.summary,
+            style: TextStyle(color: event.textColor, fontWeight: FontWeight.normal, fontSize: 14),
             strutStyle: StrutStyle(
               fontSize: 14.0,
               height: 1.3,
