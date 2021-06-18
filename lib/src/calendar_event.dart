@@ -121,6 +121,8 @@ class RecurrenceProperties {
 }
 
 enum RecurrenceType {
+  none,
+  dailyByWeekDays,
   daily,
   weekly,
   monthly,
