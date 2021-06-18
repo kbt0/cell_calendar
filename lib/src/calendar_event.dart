@@ -48,6 +48,14 @@ class CalendarEvent {
     // });
 
     /// 毎日の繰り返し
+    final dailyByWeekDayRecur = events.where((event) =>
+        event.recurrence != null &&
+        event.recurrence!.startDate.isBefore(date) &&
+        event.recurrence!.recurrenceType == RecurrenceType.dailyByWeekDays &&
+        weekdayList.contains(WeekDays.values[date.weekday % 7]));
+    res.addAll(dailyByWeekDayRecur);
+
+    /// 毎日の繰り返し
     final dailyRecur = events.where((event) =>
         event.recurrence != null &&
         event.recurrence!.startDate.isBefore(date) &&
@@ -121,6 +129,8 @@ class RecurrenceProperties {
 }
 
 enum RecurrenceType {
+  none,
+  dailyByWeekDays,
   daily,
   weekly,
   monthly,
