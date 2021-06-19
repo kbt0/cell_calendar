@@ -1,10 +1,17 @@
 import 'dart:math';
 
-import 'package:flutter/material.dart';
-
 /// DataModel of event
 ///
 /// [summary] and [start] is essential to show in [CellCalendar]
+import 'package:cell_calendar/cell_calendar.dart';
+import 'package:cell_calendar/src/models/recurrence_properties.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
+
+var uuid = Uuid();
+
 class CalendarEvent {
   CalendarEvent({
     required this.summary,
@@ -18,7 +25,9 @@ class CalendarEvent {
     this.created,
     this.updated,
     String? id,
-  })  : id = id,
+  })
+  // idはnullならuuidが自動採番される
+  : id = id ?? uuid.v4(),
         end = end ?? start.add(Duration()),
         color = CalendarEventColorList[min(colorId, CalendarEventColorList.length)].color;
 
@@ -34,6 +43,88 @@ class CalendarEvent {
   DateTime? created;
   DateTime? updated;
   final String? id;
+
+  CalendarEvent copyWith() => CalendarEvent(
+      summary: this.summary,
+      start: this.start.add(Duration()),
+      end: this.end.add(Duration()),
+      //todo recurrenceのディープコピー
+      recurrence: (this.recurrence == null) ? null : this.recurrence!.copyWith(),
+      description: this.description,
+      shouldNotify: this.shouldNotify,
+      colorId: this.colorId,
+      textColor: this.textColor,
+      created: this.created?.add(Duration()),
+      updated: this.updated?.add(Duration()),
+      id: this.id);
+
+  void restore(CalendarEvent other) {
+    this.summary = other.summary;
+    this.start = other.start;
+    this.end = other.end;
+    this.recurrence = (other.recurrence == null) ? null : other.recurrence!.copyWith();
+    this.description = other.description;
+    this.shouldNotify = other.shouldNotify;
+    this.colorId = other.colorId;
+    this.color = other.color;
+    this.textColor = other.textColor;
+    this.created = other.created;
+    this.updated = other.updated;
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is CalendarEvent &&
+        other.summary == summary &&
+        other.start == start &&
+        other.end == end &&
+        //todo recurrenceのディープコピー比較
+        other.recurrence == recurrence &&
+        other.description == description &&
+        other.shouldNotify == shouldNotify &&
+        other.colorId == colorId &&
+        other.color == color &&
+        other.textColor == textColor &&
+        other.created == created &&
+        other.updated == updated;
+  }
+
+  // FirestoreのDocumentSnapshotからcalendarEvent作成
+  static CalendarEvent fromSnapshot(QueryDocumentSnapshot<Map<String, dynamic>> snapshot) {
+    return CalendarEvent.fromJson(snapshot.id, snapshot.data());
+  }
+
+  // jsonからcalendarEvent作成
+  static CalendarEvent fromJson(String id, Map<String, dynamic> data) {
+    CalendarEvent calendarEvent = new CalendarEvent(
+      summary: data['summary'] ?? '',
+      description: data['description'] ?? '',
+      shouldNotify: data['shouldNotify'],
+      colorId: data['colorId'],
+      start: (data['start'] == null) ? null : data['start'].toDate(),
+      end: (data['end'] == null) ? null : data['end'].toDate(),
+      recurrence: (data['recurrence'] == null) ? null : RecurrenceProperties.fromJson(data['recurrence']),
+      created: (data['created'] == null) ? null : data['created'].toDate(),
+      updated: (data['updated'] == null) ? null : data['updated'].toDate(),
+      id: id,
+    );
+    return calendarEvent;
+  }
+
+  toJson() {
+    return {
+      'id': id,
+      'summary': summary,
+      'description': description,
+      'shouldNotify': shouldNotify,
+      'colorId': colorId,
+      'start': Timestamp.fromDate(start),
+      'end': Timestamp.fromDate(end),
+      'recurrence': (recurrence == null) ? null : recurrence!.toJson(),
+      'created': (created == null) ? null : Timestamp.fromDate(created!),
+      'updated': (updated == null) ? null : Timestamp.fromDate(updated!),
+    };
+  }
 
   // その日のイベントを取得
   static List<CalendarEvent> getEventsOnTheDay(DateTime date, List<CalendarEvent> events) {
@@ -104,28 +195,6 @@ class CalendarEvent {
 
   //平日の配列
   static const weekdayList = [WeekDays.monday, WeekDays.tuesday, WeekDays.wednesday, WeekDays.thursday, WeekDays.friday];
-}
-
-class RecurrenceProperties {
-  RecurrenceProperties({
-    required this.startDate,
-    this.recurrenceType,
-    this.interval = 1,
-    this.weekDays,
-  })  : dayOfMonth = startDate.day,
-        dayOfWeek = startDate.weekday % 7,
-        month = startDate.month,
-        week = ((startDate.day - 1) ~/ 7);
-
-  final DateTime startDate;
-  final RecurrenceType? recurrenceType;
-  final int interval;
-
-  final int dayOfMonth;
-  final int dayOfWeek;
-  final int month;
-  final int week;
-  final List<WeekDays>? weekDays;
 }
 
 enum RecurrenceType {

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:provider/provider.dart' as provider;
 
-import '../../calendar_event.dart';
 import '../../controllers/calendar_state_controller.dart';
 import '../../controllers/cell_height_controller.dart';
+import '../../models/calendar_event.dart';
 
 /// Numbers to return accurate events in the cell.
 const dayLabelContentHeight = 26;

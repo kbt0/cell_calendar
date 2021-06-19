@@ -12,6 +12,8 @@ dependencies:
     sdk: flutter
   provider: ^5.0.0
   hooks_riverpod: ^0.14.0+4 # 状態管理
+  cloud_firestore: ^2.2.0 # firestore
+  uuid: ^3.0.4 # UUID生成
 
 dev_dependencies:
   flutter_test:

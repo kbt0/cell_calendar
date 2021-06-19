@@ -66,8 +66,9 @@ class _DayCell extends HookWidget {
         child: DecoratedBox(
           decoration: BoxDecoration(
             border: Border(
+              left: BorderSide(color: Theme.of(context).dividerColor, width: 0.5),
               top: BorderSide(color: Theme.of(context).dividerColor, width: 1),
-              right: BorderSide(color: Theme.of(context).dividerColor, width: 1),
+              right: BorderSide(color: Theme.of(context).dividerColor, width: 0.5),
             ),
           ),
           child: MeasureSize(
