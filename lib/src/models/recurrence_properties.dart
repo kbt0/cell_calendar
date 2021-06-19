@@ -46,7 +46,7 @@ class RecurrenceProperties {
   static RecurrenceProperties fromJson(Map<String, dynamic> data) {
     RecurrenceProperties recurrence = new RecurrenceProperties(
       startDate: (data['startDate'] == null) ? null : data['startDate'].toDate(),
-      recurrenceType: EnumToString.fromString(RecurrenceType.values, data['recurrenceType']),
+      recurrenceType: EnumToString.fromString(RecurrenceType.values, (data['recurrenceType'] as String).split('.').last),
       interval: data['interval'],
       weekDays: json.decode(data['weekDays']),
     );
