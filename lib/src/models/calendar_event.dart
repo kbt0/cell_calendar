@@ -134,7 +134,7 @@ class CalendarEvent {
     //   if (event.eventRecurrence != null && event.eventRecurrence!.weekDays != null) {
     //     print(date.weekday);
     //     print(WeekDays.values);
-    //     print(event.eventRecurrence!.weekDays!.contains(WeekDays.values[date.weekday % 7]));
+    //     print(event.eventRecurrence!.weekDays!.contains(date.weekday);
     //   }
     // });
 
@@ -143,7 +143,7 @@ class CalendarEvent {
         event.recurrence != null &&
         event.recurrence!.startDate.isBefore(date) &&
         event.recurrence!.recurrenceType == RecurrenceType.dailyByWeekDays &&
-        weekdayList.contains(WeekDays.values[date.weekday % 7]));
+        weekdayList.contains(date.weekday % 7));
     res.addAll(dailyByWeekDayRecur);
 
     /// 毎日の繰り返し
@@ -151,7 +151,7 @@ class CalendarEvent {
         event.recurrence != null &&
         event.recurrence!.startDate.isBefore(date) &&
         event.recurrence!.recurrenceType == RecurrenceType.daily &&
-        (event.recurrence!.weekDays == null || event.recurrence!.weekDays!.contains(WeekDays.values[date.weekday % 7])));
+        (event.recurrence!.weekDays == null || event.recurrence!.weekDays!.contains(date.weekday)));
     res.addAll(dailyRecur);
 
     /// 毎週の繰り返し
@@ -159,7 +159,7 @@ class CalendarEvent {
         event.recurrence != null &&
         event.recurrence!.startDate.isBefore(date) &&
         event.recurrence!.recurrenceType == RecurrenceType.weekly &&
-        event.recurrence!.dayOfWeek == date.weekday % 7);
+        event.recurrence!.dayOfWeek == date.weekday);
     res.addAll(weeklyRecur);
 
     /// 毎月(日にち指定)の繰り返し
@@ -176,7 +176,7 @@ class CalendarEvent {
         event.recurrence!.startDate.isBefore(date) &&
         event.recurrence!.recurrenceType == RecurrenceType.monthlyByWeekDay &&
         event.recurrence!.week == ((date.day - 1) ~/ 7) &&
-        event.recurrence!.dayOfWeek == date.weekday % 7);
+        event.recurrence!.dayOfWeek == date.weekday);
     res.addAll(monthlyByWeekDayRecur);
 
     /// 毎年の繰り返し
@@ -194,7 +194,8 @@ class CalendarEvent {
   }
 
   //平日の配列
-  static const weekdayList = [WeekDays.monday, WeekDays.tuesday, WeekDays.wednesday, WeekDays.thursday, WeekDays.friday];
+  // static const weekdayList = [WeekDays.monday, WeekDays.tuesday, WeekDays.wednesday, WeekDays.thursday, WeekDays.friday];
+  static const weekdayList = [1, 2, 3, 4, 5];
 }
 
 enum RecurrenceType {
@@ -207,15 +208,15 @@ enum RecurrenceType {
   yearly,
 }
 
-enum WeekDays {
-  sunday,
-  monday,
-  tuesday,
-  wednesday,
-  thursday,
-  friday,
-  saturday,
-}
+// enum WeekDays {
+//   sunday,
+//   monday,
+//   tuesday,
+//   wednesday,
+//   thursday,
+//   friday,
+//   saturday,
+// }
 
 const List<CalendarEventColor> CalendarEventColorList = [
   CalendarEventColor('ブルー', Colors.lightBlue),

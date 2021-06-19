@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:cell_calendar/cell_calendar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/foundation.dart';
 
 class RecurrenceProperties {
@@ -11,7 +12,7 @@ class RecurrenceProperties {
     this.interval = 1,
     this.weekDays,
   })  : dayOfMonth = startDate.day,
-        dayOfWeek = startDate.weekday % 7,
+        dayOfWeek = startDate.weekday,
         month = startDate.month,
         week = ((startDate.day - 1) ~/ 7);
 
@@ -23,7 +24,7 @@ class RecurrenceProperties {
   final int dayOfWeek;
   final int month;
   final int week;
-  final List<WeekDays>? weekDays;
+  final List<int>? weekDays;
 
   RecurrenceProperties copyWith() => RecurrenceProperties(
         startDate: this.startDate.add(Duration()),
@@ -45,7 +46,7 @@ class RecurrenceProperties {
   static RecurrenceProperties fromJson(Map<String, dynamic> data) {
     RecurrenceProperties recurrence = new RecurrenceProperties(
       startDate: (data['startDate'] == null) ? null : data['startDate'].toDate(),
-      recurrenceType: data['recurrenceType'] ?? '',
+      recurrenceType: EnumToString.fromString(RecurrenceType.values, data['recurrenceType']),
       interval: data['interval'],
       weekDays: json.decode(data['weekDays']),
     );
@@ -55,7 +56,7 @@ class RecurrenceProperties {
   toJson() {
     return {
       'startDate': Timestamp.fromDate(startDate),
-      'recurrenceType': recurrenceType,
+      'recurrenceType': recurrenceType.toString(),
       'interval': interval,
       'weekDays': jsonEncode(weekDays),
     };
