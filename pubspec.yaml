@@ -12,8 +12,8 @@ dependencies:
     sdk: flutter
   provider: ^5.0.0
   hooks_riverpod: ^0.14.0+5 # 状態管理
-  cloud_firestore: ^2.2.0 # firestore
-  uuid: ^3.0.4 # UUID生成
+  cloud_firestore: ^3.4.6 # firestore
+  uuid: ^3.0.6 # UUID生成
   enum_to_string: ^2.0.1 #enum変換
 
 dev_dependencies:
