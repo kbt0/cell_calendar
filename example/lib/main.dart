@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key? key, required this.title}) : super(key: key);
   final String title;
 
   @override
@@ -83,7 +83,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
           );
         },
         monthYearLabelBuilder: (datetime) {
-          final year = datetime.year.toString();
+          final year = datetime!.year.toString();
           final month = datetime.month.monthName;
           return Padding(
             padding: const EdgeInsets.symmetric(vertical: 4),
@@ -124,7 +124,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
                     title: Text(date.month.monthName + " " + date.day.toString()),
                     content: Column(
                       mainAxisSize: MainAxisSize.min,
-                      children: eventsOnTheDate
+                      children: eventsOnTheDate!
                           .map(
                             (event) => Container(
                               width: double.infinity,
