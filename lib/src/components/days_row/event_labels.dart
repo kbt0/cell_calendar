@@ -68,15 +68,20 @@ class EventLabels extends HookWidget {
               Container(
                 child: Row(
                   children: [
-                    SizedBox(width: 5),
-                    Text(
-                      ' 他${(eventsOnTheDate.length - 1) - index}件',
-                      style: TextStyle(fontSize: 12),
+                    // SizedBox(width: 5),
+                    Expanded(
+                      child: Text(
+                        ' 他${(eventsOnTheDate.length - 1) - index}件',
+                        textAlign: TextAlign.center,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(fontSize: 10),
+                      ),
                     ),
-                    Icon(
-                      Icons.more_horiz,
-                      size: 13,
-                    ),
+                    // Icon(
+                    //   Icons.more_horiz,
+                    //   size: 13,
+                    // ),
                   ],
                 ),
               )
