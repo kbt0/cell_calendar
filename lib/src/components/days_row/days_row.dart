@@ -83,31 +83,34 @@ class _DayCell extends HookWidget {
               if (size == null) return;
               provider.Provider.of<CellHeightController>(context, listen: false).onChanged(size);
             },
-            child: Opacity(
-              opacity: isCurrentMonth ? 1.0 : 0.3,
-              child: Column(
-                children: [
-                  isToday
-                      ? _TodayLabel(
-                          date: date,
-                          dateTextStyle: dateTextStyle,
-                        )
-                      : _DayLabel(
-                          date: date,
-                          visiblePageDate: visiblePageDate,
-                          dateTextStyle: dateTextStyle,
+            child: (!isCurrentMonth)
+                //月跨ぎしない
+                ? Container()
+                : Opacity(
+                    opacity: isCurrentMonth ? 1.0 : 0.3,
+                    child: Column(
+                      children: [
+                        isToday
+                            ? _TodayLabel(
+                                date: date,
+                                dateTextStyle: dateTextStyle,
+                              )
+                            : _DayLabel(
+                                date: date,
+                                visiblePageDate: visiblePageDate,
+                                dateTextStyle: dateTextStyle,
+                              ),
+                        Expanded(
+                          // Overflow対策
+                          child: EventLabels(
+                            date,
+                            visiblePageDate,
+                            eventsOnTheDate,
+                          ),
                         ),
-                  Expanded(
-                    // Overflow対策
-                    child: EventLabels(
-                      date,
-                      visiblePageDate,
-                      eventsOnTheDate,
+                      ],
                     ),
                   ),
-                ],
-              ),
-            ),
           ),
         ),
       ),
