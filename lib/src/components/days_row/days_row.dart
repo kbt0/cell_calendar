@@ -55,9 +55,16 @@ class _DayCell extends HookWidget {
     final events = useProvider(calendarEventsProvider);
     // １日のイベントを取得
     final eventsOnTheDate = (events == null) ? null : CalendarEvent.getEventsOnTheDay(date, events);
+    //ソート（繰り返しの場合、日付を比較しない）
+    eventsOnTheDate!.sort((a, b) {
+      var _a = DateTime(date.year, date.month, date.day, a.start.hour, a.start.minute, a.start.second, a.start.millisecond, a.start.microsecond);
+      var _b = DateTime(date.year, date.month, date.day, b.start.hour, b.start.minute, b.start.second, b.start.millisecond, b.start.microsecond);
+      return _a.compareTo(_b);
+    });
 
     final today = DateTime.now();
     final isToday = date.year == today.year && date.month == today.month && date.day == today.day;
+    final isCurrentMonth = visiblePageDate.month == date.month;
     return Expanded(
       child: GestureDetector(
         onTap: () {
@@ -76,23 +83,30 @@ class _DayCell extends HookWidget {
               if (size == null) return;
               provider.Provider.of<CellHeightController>(context, listen: false).onChanged(size);
             },
-            child: Column(
-              children: [
-                isToday
-                    ? _TodayLabel(
-                        date: date,
-                        dateTextStyle: dateTextStyle,
-                      )
-                    : _DayLabel(
-                        date: date,
-                        visiblePageDate: visiblePageDate,
-                        dateTextStyle: dateTextStyle,
-                      ),
-                Expanded(
-                  // Overflow対策
-                  child: EventLabels(date, eventsOnTheDate),
-                ),
-              ],
+            child: Opacity(
+              opacity: isCurrentMonth ? 1.0 : 0.3,
+              child: Column(
+                children: [
+                  isToday
+                      ? _TodayLabel(
+                          date: date,
+                          dateTextStyle: dateTextStyle,
+                        )
+                      : _DayLabel(
+                          date: date,
+                          visiblePageDate: visiblePageDate,
+                          dateTextStyle: dateTextStyle,
+                        ),
+                  Expanded(
+                    // Overflow対策
+                    child: EventLabels(
+                      date,
+                      visiblePageDate,
+                      eventsOnTheDate,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

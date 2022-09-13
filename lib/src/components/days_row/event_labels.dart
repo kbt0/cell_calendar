@@ -20,9 +20,14 @@ const _eventLabelHeight = _eventLabelContentHeight + _eventLabelBottomMargin;
 /// Shows accurate number of [_EventLabel] by the height of the parent cell
 /// notified from [CellHeightController]
 class EventLabels extends HookWidget {
-  EventLabels(this.date, _eventsOnTheDate) : eventsOnTheDate = _eventsOnTheDate ?? <CalendarEvent>[];
+  EventLabels(
+    this.date,
+    this.visiblePageDate,
+    _eventsOnTheDate,
+  ) : eventsOnTheDate = _eventsOnTheDate ?? <CalendarEvent>[];
 
   final DateTime date;
+  final DateTime visiblePageDate;
   final List<CalendarEvent> eventsOnTheDate;
 
   bool _hasEnoughSpace(double cellHeight, int eventsLength) {
@@ -46,6 +51,7 @@ class EventLabels extends HookWidget {
     if (cellHeight == null) {
       return const SizedBox.shrink();
     }
+    final isCurrentMonth = visiblePageDate.month == date.month;
     final hasEnoughSpace = _hasEnoughSpace(cellHeight, eventsOnTheDate.length);
     final maxIndex = _maxIndex(cellHeight, eventsOnTheDate.length);
     return ListView.builder(
