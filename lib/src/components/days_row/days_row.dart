@@ -56,7 +56,7 @@ class _DayCell extends HookWidget {
     // １日のイベントを取得
     final eventsOnTheDate = (events == null) ? null : CalendarEvent.getEventsOnTheDay(date, events);
     //ソート（繰り返しの場合、日付を比較しない）
-    eventsOnTheDate!.sort((a, b) {
+    eventsOnTheDate?.sort((a, b) {
       var _a = DateTime(date.year, date.month, date.day, a.start.hour, a.start.minute, a.start.second, a.start.millisecond, a.start.microsecond);
       var _b = DateTime(date.year, date.month, date.day, b.start.hour, b.start.minute, b.start.second, b.start.millisecond, b.start.microsecond);
       return _a.compareTo(_b);
