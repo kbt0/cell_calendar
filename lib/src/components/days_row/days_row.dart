@@ -42,7 +42,7 @@ class DaysRow extends StatelessWidget {
 /// Cell of calendar.
 ///
 /// Its height is circulated by [MeasureSize] and notified by [CellHeightController]
-class _DayCell extends HookWidget {
+class _DayCell extends HookConsumerWidget {
   _DayCell(this.date, this.visiblePageDate, this.dateTextStyle);
 
   final DateTime date;
@@ -50,9 +50,9 @@ class _DayCell extends HookWidget {
   final TextStyle? dateTextStyle;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     // イベント取得
-    final events = useProvider(calendarEventsProvider);
+    final events = ref.watch(calendarEventsProvider);
     // １日のイベントを取得
     final eventsOnTheDate = (events == null) ? null : CalendarEvent.getEventsOnTheDay(date, events);
     //ソート（繰り返しの場合、日付を比較しない）

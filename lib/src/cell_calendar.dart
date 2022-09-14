@@ -28,7 +28,7 @@ class TodayUIConfig {
 /// Calendar widget like a Google Calendar
 ///
 /// Expected to be used in full screen
-class CellCalendar extends HookWidget {
+class CellCalendar extends HookConsumerWidget {
   CellCalendar({
     this.cellCalendarPageController,
     this.events = const [],
@@ -60,8 +60,8 @@ class CellCalendar extends HookWidget {
   final Color todayTextColor;
 
   @override
-  Widget build(BuildContext context) {
-    final calendarEventsController = useProvider(calendarEventsProvider.notifier);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final calendarEventsController = ref.watch(calendarEventsProvider.notifier);
     //1フレーム後に実行
     WidgetsBinding.instance?.addPostFrameCallback((_) => calendarEventsController.setEvents(events));
 
