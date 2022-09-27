@@ -25,7 +25,7 @@ class CalendarEvent {
     this.created,
     this.updated,
     String? id,
-  })
+  })  
   // idはnullならuuidが自動採番される
   : id = id ?? uuid.v4(),
         end = end ?? start.add(Duration()),
@@ -128,7 +128,7 @@ class CalendarEvent {
 
   // その日のイベントを取得
   static List<CalendarEvent> getEventsOnTheDay(DateTime date, List<CalendarEvent> events) {
-    final res = events.where((event) => event.start.year == date.year && event.start.month == date.month && event.start.day == date.day).toList();
+    var res = events.where((event) => event.start.year == date.year && event.start.month == date.month && event.start.day == date.day).toList();
     //TODO 繰り返しイベント取得
     // events.forEach((event) {
     //   if (event.eventRecurrence != null && event.eventRecurrence!.weekDays != null) {
@@ -140,10 +140,7 @@ class CalendarEvent {
 
     /// 毎日の繰り返し
     final dailyByWeekDayRecur = events.where((event) =>
-        event.recurrence != null &&
-        event.recurrence!.startDate.isBefore(date) &&
-        event.recurrence!.recurrenceType == RecurrenceType.dailyByWeekDays &&
-        weekdayList.contains(date.weekday % 7));
+        event.recurrence != null && event.recurrence!.startDate.isBefore(date) && event.recurrence!.recurrenceType == RecurrenceType.dailyByWeekDays && weekdayList.contains(date.weekday % 7));
     res.addAll(dailyByWeekDayRecur);
 
     /// 毎日の繰り返し
@@ -155,19 +152,13 @@ class CalendarEvent {
     res.addAll(dailyRecur);
 
     /// 毎週の繰り返し
-    final weeklyRecur = events.where((event) =>
-        event.recurrence != null &&
-        event.recurrence!.startDate.isBefore(date) &&
-        event.recurrence!.recurrenceType == RecurrenceType.weekly &&
-        event.recurrence!.dayOfWeek == date.weekday);
+    final weeklyRecur = events.where(
+        (event) => event.recurrence != null && event.recurrence!.startDate.isBefore(date) && event.recurrence!.recurrenceType == RecurrenceType.weekly && event.recurrence!.dayOfWeek == date.weekday);
     res.addAll(weeklyRecur);
 
     /// 毎月(日にち指定)の繰り返し
-    final monthlyRecur = events.where((event) =>
-        event.recurrence != null &&
-        event.recurrence!.startDate.isBefore(date) &&
-        event.recurrence!.recurrenceType == RecurrenceType.monthly &&
-        event.recurrence!.dayOfMonth == date.day);
+    final monthlyRecur = events.where(
+        (event) => event.recurrence != null && event.recurrence!.startDate.isBefore(date) && event.recurrence!.recurrenceType == RecurrenceType.monthly && event.recurrence!.dayOfMonth == date.day);
     res.addAll(monthlyRecur);
 
     /// 毎月(曜日指定)の繰り返し
@@ -189,7 +180,7 @@ class CalendarEvent {
     res.addAll(yearlyRecur);
 
     //重複削除
-    res.toSet().toList();
+    res = res.toSet().toList();
     return res;
   }
 
