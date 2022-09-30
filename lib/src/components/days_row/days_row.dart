@@ -75,18 +75,23 @@ class _DayCell extends HookConsumerWidget {
               },
         child: DecoratedBox(
           decoration: BoxDecoration(
-            border: isToday && isCurrentMonth
-                ? Border(
-                    left: BorderSide(color: Theme.of(context).primaryColor, width: 1),
-                    top: BorderSide(color: Theme.of(context).primaryColor, width: 1),
-                    right: BorderSide(color: Theme.of(context).primaryColor, width: 1),
-                    bottom: BorderSide(color: Theme.of(context).primaryColor, width: 1),
-                  )
-                : Border(
-                    left: BorderSide(color: Theme.of(context).dividerColor, width: 0.5),
-                    top: BorderSide(color: Theme.of(context).dividerColor, width: 1),
-                    right: BorderSide(color: Theme.of(context).dividerColor, width: 0.5),
-                  ),
+            border: Border(
+              left: BorderSide(color: Theme.of(context).dividerColor, width: 0.5),
+              top: BorderSide(color: Theme.of(context).dividerColor, width: 1),
+              right: BorderSide(color: Theme.of(context).dividerColor, width: 0.5),
+            ),
+            // border: isToday && isCurrentMonth
+            //     ? Border(
+            //         left: BorderSide(color: Theme.of(context).primaryColor, width: 1),
+            //         top: BorderSide(color: Theme.of(context).primaryColor, width: 1),
+            //         right: BorderSide(color: Theme.of(context).primaryColor, width: 1),
+            //         bottom: BorderSide(color: Theme.of(context).primaryColor, width: 1),
+            //       )
+            //     : Border(
+            //         left: BorderSide(color: Theme.of(context).dividerColor, width: 0.5),
+            //         top: BorderSide(color: Theme.of(context).dividerColor, width: 1),
+            //         right: BorderSide(color: Theme.of(context).dividerColor, width: 0.5),
+            //       ),
           ),
           child: MeasureSize(
             onChange: (size) {
