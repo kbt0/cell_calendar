@@ -161,6 +161,7 @@ class _TodayLabel extends StatelessWidget {
           date.day.toString(),
           textAlign: TextAlign.center,
           style: textStyle.copyWith(
+            fontSize: 18,
             color: config.todayTextColor,
           ),
         ),
@@ -189,11 +190,14 @@ class _DayLabel extends StatelessWidget {
     return Container(
       margin: EdgeInsets.symmetric(vertical: dayLabelVerticalMargin.toDouble()),
       height: dayLabelContentHeight.toDouble(),
-      child: Text(
-        date.day.toString(),
-        textAlign: TextAlign.center,
-        style: textStyle.copyWith(
-          color: isCurrentMonth ? textStyle.color : textStyle.color!.withOpacity(0.4),
+      child: Center(
+        child: Text(
+          date.day.toString(),
+          textAlign: TextAlign.center,
+          style: textStyle.copyWith(
+            fontSize: 18,
+            color: isCurrentMonth ? textStyle.color : textStyle.color!.withOpacity(0.4),
+          ),
         ),
       ),
     );

@@ -116,7 +116,7 @@ class _EventLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        margin: EdgeInsets.only(left: 4, right: 4, bottom: 1),
+        margin: EdgeInsets.only(left: 1, right: 1, bottom: 1),
         height: 16,
         width: double.infinity,
         // color: event.eventBackgroundColor,
