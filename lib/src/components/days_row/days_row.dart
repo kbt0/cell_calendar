@@ -61,21 +61,32 @@ class _DayCell extends HookConsumerWidget {
       return _a.compareTo(_b);
     });
 
-    final today = DateTime.now();
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
     final isToday = date.year == today.year && date.month == today.month && date.day == today.day;
     final isCurrentMonth = visiblePageDate.month == date.month;
+    final isPastDay = date.difference(today) < Duration.zero;
     return Expanded(
       child: GestureDetector(
-        onTap: () {
-          provider.Provider.of<CalendarStateController>(context, listen: false).onCellTapped(date, eventsOnTheDate);
-        },
+        onTap: !isCurrentMonth
+            ? null
+            : () {
+                provider.Provider.of<CalendarStateController>(context, listen: false).onCellTapped(date, eventsOnTheDate);
+              },
         child: DecoratedBox(
           decoration: BoxDecoration(
-            border: Border(
-              left: BorderSide(color: Theme.of(context).dividerColor, width: 0.5),
-              top: BorderSide(color: Theme.of(context).dividerColor, width: 1),
-              right: BorderSide(color: Theme.of(context).dividerColor, width: 0.5),
-            ),
+            border: isToday && isCurrentMonth
+                ? Border(
+                    left: BorderSide(color: Theme.of(context).primaryColor, width: 1),
+                    top: BorderSide(color: Theme.of(context).primaryColor, width: 1),
+                    right: BorderSide(color: Theme.of(context).primaryColor, width: 1),
+                    bottom: BorderSide(color: Theme.of(context).primaryColor, width: 1),
+                  )
+                : Border(
+                    left: BorderSide(color: Theme.of(context).dividerColor, width: 0.5),
+                    top: BorderSide(color: Theme.of(context).dividerColor, width: 1),
+                    right: BorderSide(color: Theme.of(context).dividerColor, width: 0.5),
+                  ),
           ),
           child: MeasureSize(
             onChange: (size) {
@@ -85,21 +96,21 @@ class _DayCell extends HookConsumerWidget {
             child: (!isCurrentMonth)
                 //月跨ぎしない
                 ? Container()
-                : Opacity(
-                    opacity: isCurrentMonth ? 1.0 : 0.3,
-                    child: Column(
-                      children: [
-                        isToday
-                            ? _TodayLabel(
-                                date: date,
-                                dateTextStyle: dateTextStyle,
-                              )
-                            : _DayLabel(
-                                date: date,
-                                visiblePageDate: visiblePageDate,
-                                dateTextStyle: dateTextStyle,
-                              ),
-                        Expanded(
+                : Column(
+                    children: [
+                      isToday
+                          ? _TodayLabel(
+                              date: date,
+                              dateTextStyle: dateTextStyle,
+                            )
+                          : _DayLabel(
+                              date: date,
+                              visiblePageDate: visiblePageDate,
+                              dateTextStyle: dateTextStyle,
+                            ),
+                      Expanded(
+                        child: Opacity(
+                          opacity: !isPastDay ? 1.0 : 0.3,
                           // Overflow対策
                           child: EventLabels(
                             date,
@@ -107,8 +118,8 @@ class _DayCell extends HookConsumerWidget {
                             eventsOnTheDate,
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
           ),
         ),

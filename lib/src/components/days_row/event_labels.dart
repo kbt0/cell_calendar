@@ -80,7 +80,7 @@ class EventLabels extends HookWidget {
                         ' 他${(eventsOnTheDate.length - 1) - index}件',
                         textAlign: TextAlign.center,
                         maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
+                        overflow: TextOverflow.visible,
                         style: TextStyle(fontSize: 10),
                       ),
                     ),
@@ -117,7 +117,7 @@ class _EventLabel extends StatelessWidget {
     return Center(
       child: Container(
         margin: EdgeInsets.only(left: 4, right: 4, bottom: 1),
-        height: 20,
+        height: 16,
         width: double.infinity,
         // color: event.eventBackgroundColor,
         decoration: BoxDecoration(
@@ -125,16 +125,21 @@ class _EventLabel extends StatelessWidget {
           borderRadius: BorderRadius.circular(2),
         ),
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(4.0, 0, 4.0, 0),
+          padding: const EdgeInsets.fromLTRB(1.0, 0, 0.0, 0),
           child: Text(
             event.summary,
-            style: TextStyle(color: event.textColor, fontWeight: FontWeight.normal, fontSize: 14),
+            maxLines: 1,
+            style: TextStyle(
+              color: event.textColor,
+              fontWeight: FontWeight.normal,
+              fontSize: 12,
+            ),
             strutStyle: StrutStyle(
-              fontSize: 14.0,
+              fontSize: 12.0,
               height: 1.3,
             ),
             textAlign: TextAlign.start,
-            overflow: TextOverflow.ellipsis,
+            overflow: TextOverflow.visible,
           ),
         ),
       ),
