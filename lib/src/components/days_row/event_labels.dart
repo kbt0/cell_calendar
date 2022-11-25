@@ -11,9 +11,9 @@ const dayLabelContentHeight = 26;
 const dayLabelVerticalMargin = 1;
 const _dayLabelHeight = dayLabelContentHeight + (dayLabelVerticalMargin * 2);
 
-const _eventLabelContentHeight = 20;
-const _eventLabelBottomMargin = 1;
-const _eventLabelHeight = _eventLabelContentHeight + _eventLabelBottomMargin;
+const eventLabelContentHeight = 20;
+const eventLabelBottomMargin = 1;
+const _eventLabelHeight = eventLabelContentHeight + eventLabelBottomMargin;
 
 /// Get events to be shown from [CalendarStateController]
 ///
@@ -116,8 +116,8 @@ class _EventLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        margin: EdgeInsets.only(left: 1, right: 1, bottom: 1),
-        height: 16,
+        margin: EdgeInsets.only(left: eventLabelBottomMargin.toDouble(), right: eventLabelBottomMargin.toDouble(), bottom: eventLabelBottomMargin.toDouble()),
+        height: eventLabelContentHeight.toDouble(),
         width: double.infinity,
         // color: event.eventBackgroundColor,
         decoration: BoxDecoration(
@@ -132,10 +132,10 @@ class _EventLabel extends StatelessWidget {
             style: TextStyle(
               color: event.textColor,
               fontWeight: FontWeight.normal,
-              fontSize: 12,
+              fontSize: 15,
             ),
             strutStyle: StrutStyle(
-              fontSize: 12.0,
+              fontSize: 15.0,
               height: 1.3,
             ),
             textAlign: TextAlign.start,

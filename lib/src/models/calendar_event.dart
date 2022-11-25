@@ -17,6 +17,7 @@ class CalendarEvent {
     required this.summary,
     required this.start,
     DateTime? end,
+    this.allday = false,
     this.recurrence,
     this.description = '',
     this.shouldNotify = false,
@@ -28,12 +29,13 @@ class CalendarEvent {
   })  
   // idはnullならuuidが自動採番される
   : id = id ?? uuid.v4(),
-        end = end ?? start.add(Duration()),
+        end = end ?? start.add(Duration(hours: 1)),
         color = CalendarEventColorList[min(colorId, CalendarEventColorList.length)].color;
 
   String summary;
   DateTime start;
   DateTime end;
+  bool allday;
   RecurrenceProperties? recurrence;
   String description;
   int colorId;
@@ -48,6 +50,7 @@ class CalendarEvent {
       summary: this.summary,
       start: this.start.add(Duration()),
       end: this.end.add(Duration()),
+      allday: this.allday,
       //todo recurrenceのディープコピー
       recurrence: (this.recurrence == null) ? null : this.recurrence!.copyWith(),
       description: this.description,
@@ -62,6 +65,7 @@ class CalendarEvent {
     this.summary = other.summary;
     this.start = other.start;
     this.end = other.end;
+    this.allday = other.allday;
     this.recurrence = (other.recurrence == null) ? null : other.recurrence!.copyWith();
     this.description = other.description;
     this.shouldNotify = other.shouldNotify;
@@ -78,6 +82,7 @@ class CalendarEvent {
         other.summary == summary &&
         other.start == start &&
         other.end == end &&
+        other.allday == allday &&
         //todo recurrenceのディープコピー比較
         other.recurrence == recurrence &&
         other.description == description &&
@@ -103,6 +108,7 @@ class CalendarEvent {
       colorId: data['colorId'],
       start: (data['start'] == null) ? null : data['start'].toDate(),
       end: (data['end'] == null) ? null : data['end'].toDate(),
+      allday: data['allday'] ?? false,
       recurrence: (data['recurrence'] == null) ? null : RecurrenceProperties.fromJson(data['recurrence']),
       created: (data['created'] == null) ? null : data['created'].toDate(),
       updated: (data['updated'] == null) ? null : data['updated'].toDate(),
@@ -120,6 +126,7 @@ class CalendarEvent {
       'colorId': colorId,
       'start': Timestamp.fromDate(start),
       'end': Timestamp.fromDate(end),
+      'allday': allday,
       'recurrence': (recurrence == null) ? null : recurrence!.toJson(),
       'created': (created == null) ? null : Timestamp.fromDate(created!),
       'updated': (updated == null) ? null : Timestamp.fromDate(updated!),
