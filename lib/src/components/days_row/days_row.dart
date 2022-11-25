@@ -56,10 +56,13 @@ class _DayCell extends HookConsumerWidget {
     final eventsOnTheDate = (events == null) ? null : CalendarEvent.getEventsOnTheDay(date, events);
     //ソート（繰り返しの場合、日付を比較しない）
     eventsOnTheDate?.sort((a, b) {
-      if (!a.allday) if (b.allday) return -1;
-      var _a = DateTime(date.year, date.month, date.day, a.start.hour, a.start.minute, a.start.second, a.start.millisecond, a.start.microsecond).toLocal();
-      var _b = DateTime(date.year, date.month, date.day, b.start.hour, b.start.minute, b.start.second, b.start.millisecond, b.start.microsecond).toLocal();
-      return _a.compareTo(_b);
+      if (a.allday != b.allday) {
+        return a.allday.toString().compareTo(b.allday.toString());
+      } else {
+        var _a = DateTime(date.year, date.month, date.day, a.start.hour, a.start.minute, a.start.second, a.start.millisecond, a.start.microsecond).toLocal();
+        var _b = DateTime(date.year, date.month, date.day, b.start.hour, b.start.minute, b.start.second, b.start.millisecond, b.start.microsecond).toLocal();
+        return _a.compareTo(_b);
+      }
     });
 
     final now = DateTime.now();
