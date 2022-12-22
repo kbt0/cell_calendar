@@ -163,6 +163,7 @@ class _TodayLabel extends StatelessWidget {
       child: Center(
         child: Text(
           date.day.toString(),
+          textScaleFactor: 1.0,
           textAlign: TextAlign.center,
           style: textStyle.copyWith(
             fontSize: 18,
@@ -197,6 +198,7 @@ class _DayLabel extends StatelessWidget {
       child: Center(
         child: Text(
           date.day.toString(),
+          textScaleFactor: 1.0,
           textAlign: TextAlign.center,
           style: textStyle.copyWith(
             fontSize: 18,

@@ -4,15 +4,7 @@ import 'package:flutter/material.dart';
 /// Days of the week
 ///
 // TODO: Internationalize the days of the week
-const List<String> _DaysOfTheWeek = [
-  'Sun',
-  'Mon',
-  'Tue',
-  'Wed',
-  'Thu',
-  'Fry',
-  'Sat'
-];
+const List<String> _DaysOfTheWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fry', 'Sat'];
 
 /// Show the row of text from [_DaysOfTheWeek]
 class DaysOfTheWeek extends StatelessWidget {
@@ -25,6 +17,7 @@ class DaysOfTheWeek extends StatelessWidget {
       padding: EdgeInsets.only(bottom: 8),
       child: Text(
         _DaysOfTheWeek[index],
+        textScaleFactor: 1.0,
         textAlign: TextAlign.center,
         style: TextStyle(fontWeight: FontWeight.bold),
       ),

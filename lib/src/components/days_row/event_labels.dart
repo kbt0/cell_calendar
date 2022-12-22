@@ -78,6 +78,7 @@ class EventLabels extends HookWidget {
                     Expanded(
                       child: Text(
                         ' 他${(eventsOnTheDate.length - 1) - index}件',
+                        textScaleFactor: 1.0,
                         textAlign: TextAlign.center,
                         maxLines: 1,
                         overflow: TextOverflow.visible,
@@ -128,6 +129,7 @@ class _EventLabel extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(1.0, 0, 0.0, 0),
           child: Text(
             event.summary,
+            textScaleFactor: 1.0,
             maxLines: 1,
             style: TextStyle(
               color: event.textColor,

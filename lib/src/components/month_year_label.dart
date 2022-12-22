@@ -16,8 +16,7 @@ class MonthYearLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currentDateTime =
-        Provider.of<CalendarStateController>(context).currentDateTime;
+    final currentDateTime = Provider.of<CalendarStateController>(context).currentDateTime;
     final monthLabel = currentDateTime?.month.monthName ?? '';
     final yearLabel = currentDateTime?.year.toString();
     return monthYearLabelBuilder?.call(currentDateTime) ??
@@ -25,6 +24,7 @@ class MonthYearLabel extends StatelessWidget {
           padding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
           child: Text(
             monthLabel + " " + yearLabel!,
+            textScaleFactor: 1.0,
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
         );

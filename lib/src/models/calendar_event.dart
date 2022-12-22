@@ -18,6 +18,7 @@ class CalendarEvent {
     required this.start,
     DateTime? end,
     this.allday = false,
+    this.holiday = false,
     this.recurrence,
     this.description = '',
     this.shouldNotify = false,
@@ -25,6 +26,7 @@ class CalendarEvent {
     this.textColor = Colors.white,
     this.created,
     this.updated,
+    this.editable = true,
     String? id,
   })  
   // idはnullならuuidが自動採番される
@@ -36,6 +38,7 @@ class CalendarEvent {
   DateTime start;
   DateTime end;
   bool allday;
+  bool holiday;
   RecurrenceProperties? recurrence;
   String description;
   int colorId;
@@ -44,6 +47,7 @@ class CalendarEvent {
   bool shouldNotify;
   DateTime? created;
   DateTime? updated;
+  bool editable;
   final String? id;
 
   CalendarEvent copyWith() => CalendarEvent(
@@ -51,6 +55,7 @@ class CalendarEvent {
       start: this.start.add(Duration()),
       end: this.end.add(Duration()),
       allday: this.allday,
+      holiday: this.holiday,
       //todo recurrenceのディープコピー
       recurrence: (this.recurrence == null) ? null : this.recurrence!.copyWith(),
       description: this.description,
@@ -59,6 +64,7 @@ class CalendarEvent {
       textColor: this.textColor,
       created: this.created?.add(Duration()),
       updated: this.updated?.add(Duration()),
+      editable: this.editable,
       id: this.id);
 
   void restore(CalendarEvent other) {
@@ -66,6 +72,7 @@ class CalendarEvent {
     this.start = other.start;
     this.end = other.end;
     this.allday = other.allday;
+    this.holiday = other.holiday;
     this.recurrence = (other.recurrence == null) ? null : other.recurrence!.copyWith();
     this.description = other.description;
     this.shouldNotify = other.shouldNotify;
@@ -74,6 +81,7 @@ class CalendarEvent {
     this.textColor = other.textColor;
     this.created = other.created;
     this.updated = other.updated;
+    this.editable = other.editable;
   }
 
   @override
@@ -83,6 +91,7 @@ class CalendarEvent {
         other.start == start &&
         other.end == end &&
         other.allday == allday &&
+        other.holiday == holiday &&
         //todo recurrenceのディープコピー比較
         other.recurrence == recurrence &&
         other.description == description &&
@@ -91,7 +100,8 @@ class CalendarEvent {
         other.color == color &&
         other.textColor == textColor &&
         other.created == created &&
-        other.updated == updated;
+        other.updated == updated &&
+        other.editable == editable;
   }
 
   // FirestoreのDocumentSnapshotからcalendarEvent作成
@@ -109,9 +119,11 @@ class CalendarEvent {
       start: (data['start'] == null) ? null : data['start'].toDate(),
       end: (data['end'] == null) ? null : data['end'].toDate(),
       allday: data['allday'] ?? false,
+      holiday: data['holiday'] ?? false,
       recurrence: (data['recurrence'] == null) ? null : RecurrenceProperties.fromJson(data['recurrence']),
       created: (data['created'] == null) ? null : data['created'].toDate(),
       updated: (data['updated'] == null) ? null : data['updated'].toDate(),
+      editable: data['editable'] ?? true,
       id: id,
     );
     return calendarEvent;
@@ -127,9 +139,11 @@ class CalendarEvent {
       'start': Timestamp.fromDate(start),
       'end': Timestamp.fromDate(end),
       'allday': allday,
+      'holiday': holiday,
       'recurrence': (recurrence == null) ? null : recurrence!.toJson(),
       'created': (created == null) ? null : Timestamp.fromDate(created!),
       'updated': (updated == null) ? null : Timestamp.fromDate(updated!),
+      'editable': editable,
     };
   }
 
