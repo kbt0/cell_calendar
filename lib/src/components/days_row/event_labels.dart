@@ -137,11 +137,11 @@ class _EventLabel extends StatelessWidget {
                 color: event.textColor,
                 fontWeight: FontWeight.normal,
                 fontSize: 15,
-                height: 1.2,
+                height: 1.3,
               ),
               strutStyle: StrutStyle(
                 fontSize: 15.0,
-                height: 1.2,
+                height: 1.3,
               ),
               textAlign: TextAlign.start,
               overflow: TextOverflow.visible,
