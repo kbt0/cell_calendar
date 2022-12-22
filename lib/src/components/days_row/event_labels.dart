@@ -128,7 +128,7 @@ class _EventLabel extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.fromLTRB(1.0, 0, 0.0, 0),
           child: Transform.translate(
-            offset: Offset(0, -1),
+            offset: Offset(0, 0),
             child: Text(
               event.summary,
               textScaleFactor: 1.0,
@@ -137,11 +137,11 @@ class _EventLabel extends StatelessWidget {
                 color: event.textColor,
                 fontWeight: FontWeight.normal,
                 fontSize: 15,
-                height: 1.0,
+                height: 1.2,
               ),
               strutStyle: StrutStyle(
                 fontSize: 15.0,
-                height: 1.0,
+                height: 1.2,
               ),
               textAlign: TextAlign.start,
               overflow: TextOverflow.visible,
