@@ -58,6 +58,8 @@ class _DayCell extends HookConsumerWidget {
     eventsOnTheDate?.sort((a, b) {
       if (a.allday != b.allday) {
         return b.allday.toString().compareTo(a.allday.toString());
+      } else if (a.colorId != b.colorId) {
+        return b.colorId.compareTo(a.colorId);
       } else {
         var _a = DateTime(date.year, date.month, date.day, a.start.hour, a.start.minute, a.start.second, a.start.millisecond, a.start.microsecond).toLocal();
         var _b = DateTime(date.year, date.month, date.day, b.start.hour, b.start.minute, b.start.second, b.start.millisecond, b.start.microsecond).toLocal();
