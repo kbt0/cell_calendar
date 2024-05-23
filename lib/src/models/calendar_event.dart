@@ -4,9 +4,7 @@ import 'dart:math';
 ///
 /// [summary] and [start] is essential to show in [CellCalendar]
 import 'package:cell_calendar/cell_calendar.dart';
-import 'package:cell_calendar/src/models/recurrence_properties.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 

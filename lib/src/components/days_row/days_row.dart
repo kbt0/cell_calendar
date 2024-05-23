@@ -53,7 +53,8 @@ class _DayCell extends HookConsumerWidget {
     // イベント取得
     final events = ref.watch(calendarEventsProvider);
     // １日のイベントを取得
-    final eventsOnTheDate = (events == null) ? null : CalendarEvent.getEventsOnTheDay(date, events);
+    final eventsOnTheDate =
+        (events == null) ? null : CalendarEvent.getEventsOnTheDay(date, events);
     //ソート（繰り返しの場合、日付を比較しない）
     eventsOnTheDate?.sort((a, b) {
       if (a.allday != b.allday) {
@@ -61,15 +62,35 @@ class _DayCell extends HookConsumerWidget {
       } else if (a.colorId != b.colorId) {
         return b.colorId.compareTo(a.colorId);
       } else {
-        var _a = DateTime(date.year, date.month, date.day, a.start.hour, a.start.minute, a.start.second, a.start.millisecond, a.start.microsecond).toLocal();
-        var _b = DateTime(date.year, date.month, date.day, b.start.hour, b.start.minute, b.start.second, b.start.millisecond, b.start.microsecond).toLocal();
+        var _a = DateTime(
+                date.year,
+                date.month,
+                date.day,
+                a.start.hour,
+                a.start.minute,
+                a.start.second,
+                a.start.millisecond,
+                a.start.microsecond)
+            .toLocal();
+        var _b = DateTime(
+                date.year,
+                date.month,
+                date.day,
+                b.start.hour,
+                b.start.minute,
+                b.start.second,
+                b.start.millisecond,
+                b.start.microsecond)
+            .toLocal();
         return _a.compareTo(_b);
       }
     });
 
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
-    final isToday = date.year == today.year && date.month == today.month && date.day == today.day;
+    final isToday = date.year == today.year &&
+        date.month == today.month &&
+        date.day == today.day;
     final isCurrentMonth = visiblePageDate.month == date.month;
     final isPastDay = date.difference(today) < Duration.zero;
     return Expanded(
@@ -77,14 +98,18 @@ class _DayCell extends HookConsumerWidget {
         onTap: !isCurrentMonth
             ? null
             : () {
-                provider.Provider.of<CalendarStateController>(context, listen: false).onCellTapped(date, eventsOnTheDate);
+                provider.Provider.of<CalendarStateController>(context,
+                        listen: false)
+                    .onCellTapped(date, eventsOnTheDate);
               },
         child: DecoratedBox(
           decoration: BoxDecoration(
             border: Border(
-              left: BorderSide(color: Theme.of(context).dividerColor, width: 0.5),
+              left:
+                  BorderSide(color: Theme.of(context).dividerColor, width: 0.5),
               top: BorderSide(color: Theme.of(context).dividerColor, width: 1),
-              right: BorderSide(color: Theme.of(context).dividerColor, width: 0.5),
+              right:
+                  BorderSide(color: Theme.of(context).dividerColor, width: 0.5),
             ),
             // border: isToday && isCurrentMonth
             //     ? Border(
@@ -102,7 +127,8 @@ class _DayCell extends HookConsumerWidget {
           child: MeasureSize(
             onChange: (size) {
               if (size == null) return;
-              provider.Provider.of<CellHeightController>(context, listen: false).onChanged(size);
+              provider.Provider.of<CellHeightController>(context, listen: false)
+                  .onChanged(size);
             },
             child: (!isCurrentMonth)
                 //月跨ぎしない
@@ -152,7 +178,10 @@ class _TodayLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final config = provider.Provider.of<TodayUIConfig>(context, listen: false);
-    final caption = Theme.of(context).textTheme.caption!.copyWith(fontWeight: FontWeight.w500);
+    final caption = Theme.of(context)
+        .textTheme
+        .bodySmall!
+        .copyWith(fontWeight: FontWeight.w500);
     final textStyle = caption.merge(dateTextStyle);
     return Container(
       margin: EdgeInsets.symmetric(vertical: 1),
@@ -165,7 +194,7 @@ class _TodayLabel extends StatelessWidget {
       child: Center(
         child: Text(
           date.day.toString(),
-          textScaleFactor: 1.0,
+          textScaler: TextScaler.linear(1.0),
           textAlign: TextAlign.center,
           style: textStyle.copyWith(
             fontSize: 18,
@@ -192,7 +221,9 @@ class _DayLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isCurrentMonth = visiblePageDate.month == date.month;
-    final caption = Theme.of(context).textTheme.caption!.copyWith(fontWeight: FontWeight.w500, color: Theme.of(context).colorScheme.onSurface);
+    final caption = Theme.of(context).textTheme.bodySmall!.copyWith(
+        fontWeight: FontWeight.w500,
+        color: Theme.of(context).colorScheme.onSurface);
     final textStyle = caption.merge(dateTextStyle);
     return Container(
       margin: EdgeInsets.symmetric(vertical: dayLabelVerticalMargin.toDouble()),
@@ -200,11 +231,13 @@ class _DayLabel extends StatelessWidget {
       child: Center(
         child: Text(
           date.day.toString(),
-          textScaleFactor: 1.0,
+          textScaler: TextScaler.linear(1.0),
           textAlign: TextAlign.center,
           style: textStyle.copyWith(
             fontSize: 18,
-            color: isCurrentMonth ? textStyle.color : textStyle.color!.withOpacity(0.4),
+            color: isCurrentMonth
+                ? textStyle.color
+                : textStyle.color!.withOpacity(0.4),
           ),
         ),
       ),

@@ -2,7 +2,6 @@ import 'package:cell_calendar/cell_calendar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 
-import '../date_extension.dart';
 
 /// Controller to call functions from argument like [onPageChanged] and [onCellTapped]
 class CalendarStateController extends ChangeNotifier {

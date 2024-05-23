@@ -1,7 +1,5 @@
 import 'package:cell_calendar/src/controllers/calendar_events_provider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:provider/provider.dart' as provider;
 
@@ -63,7 +61,7 @@ class CellCalendar extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final calendarEventsController = ref.watch(calendarEventsProvider.notifier);
     //1フレーム後に実行
-    WidgetsBinding.instance?.addPostFrameCallback((_) => calendarEventsController.setEvents(events));
+    WidgetsBinding.instance.addPostFrameCallback((_) => calendarEventsController.setEvents(events));
 
     return provider.MultiProvider(
       providers: [
