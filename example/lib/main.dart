@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
+          dividerColor: Colors.black.withOpacity(0.3),
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
@@ -121,7 +122,8 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
           showDialog(
               context: context,
               builder: (_) => AlertDialog(
-                    title: Text(date.month.monthName + " " + date.day.toString()),
+                    title:
+                        Text(date.month.monthName + " " + date.day.toString()),
                     content: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: eventsOnTheDate!
